@@ -9,7 +9,7 @@ public static class Divisors {
         Console.WriteLine("<List>{" + string.Join(", ", list1) + "}"); // <List>{1}
     }
 
-    /// <summary>
+    /// <summary> 
     /// Create a list of all divisors for a number including 1
     /// and excluding the number itself. Modulo will be used
     /// to test divisibility.
@@ -22,7 +22,7 @@ public static class Divisors {
             if(number % 1==0){
                 results.Add(i);
             }
-        }
+        } 
         return results;
     }
 }
