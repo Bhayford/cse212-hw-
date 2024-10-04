@@ -1,10 +1,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+
 
 [TestClass]
 public class PriorityQueueTests
 {
-    
     [TestMethod]
     public void TestPriorityQueue_EnqueueDequeue()
     {
@@ -26,7 +25,7 @@ public class PriorityQueueTests
     {
         var queue = new PriorityQueue();
 
-        Assert.ThrowsException<InvalidOperationException>(() => queue.Dequeue(), "Exception should be thrown for empty queue.");
+        var exception = Assert.ThrowsException<InvalidOperationException>(() => queue.Dequeue());
+        Assert.AreEqual("The queue is empty.", exception.Message, "Exception message is incorrect.");
     }
 }
-

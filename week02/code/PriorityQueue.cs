@@ -3,48 +3,59 @@
     private List<PriorityItem> _queue = new();
 
     /// <summary>
-    /// Add a new value to the queue with an associated priority. 
-    /// The node is always added to the back of the queue regardless of the priority.
+    /// Add a new value to the queue with an associated priority.
     /// </summary>
-    /// <param name="value">The value</param>
-    /// <param name="priority">The priority</param>
-    public void Enqueue(object value, int priority)
+    public void Enqueue(string value, int priority)
     {
-        var item = new PriorityItem(value, priority);
-        _queue.Add(item);
+        var newNode = new PriorityItem(value, priority);
+        _queue.Add(newNode);
     }
 
     /// <summary>
-    /// Return the highest priority item from the queue. 
-    /// If multiple items have the same highest priority, return the first one.
+    /// Remove and return the item with the highest priority.
     /// </summary>
-    public object Dequeue()
+    public string Dequeue()
     {
         if (_queue.Count == 0)
         {
-            throw new InvalidOperationException("No items in the queue.");
+            throw new InvalidOperationException("The queue is empty.");
         }
 
-        var highestPriorityItem = _queue.OrderByDescending(i => i.Priority).First();
-        _queue.Remove(highestPriorityItem);
-        return highestPriorityItem.Value;
+        // Find the index of the item with the highest priority
+        var highPriorityIndex = 0;
+        for (int index = 1; index < _queue.Count; index++)  // Corrected loop condition
+        {
+            if (_queue[index].Priority > _queue[highPriorityIndex].Priority)
+                highPriorityIndex = index;
+        }
+
+        // Remove and return the item with the highest priority
+        var value = _queue[highPriorityIndex].Value;
+        _queue.RemoveAt(highPriorityIndex);
+        return value;
     }
 
     public int Length => _queue.Count;
 
-    public bool IsEmpty() => _queue.Count == 0;
-
-    public override string ToString() => string.Join(", ", _queue.Select(i => $"{i.Value} (Priority: {i.Priority})"));
-
-    private class PriorityItem
+    public override string ToString()
     {
-        public object Value { get; }
-        public int Priority { get; }
+        return $"[{string.Join(", ", _queue.Select(p => $"{p.Value} (Pri:{p.Priority})"))}]";  // Adjusted formatting
+    }
+}
 
-        public PriorityItem(object value, int priority)
-        {
-            Value = value;
-            Priority = priority;
-        }
+internal class PriorityItem
+{
+    internal string Value { get; set; }
+    internal int Priority { get; set; }
+
+    internal PriorityItem(string value, int priority)
+    {
+        Value = value;
+        Priority = priority;
+    }
+
+    public override string ToString()
+    {
+        return $"{Value} (Pri:{Priority})";  // Corrected display formatting
     }
 }
