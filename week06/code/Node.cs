@@ -9,21 +9,22 @@ public class Node
         this.Data = data;
     }
 
+    /// <summary>
+    /// Inserts a value uniquely in the tree
+    /// </summary>
     public void Insert(int value)
     {
-        // TODO Start Problem 1
+        if (value == Data) return; // Prevent duplicates
 
         if (value < Data)
         {
-            // Insert to the left
             if (Left is null)
                 Left = new Node(value);
             else
                 Left.Insert(value);
         }
-        else
+        else if (value > Data) // Only insert if value is greater
         {
-            // Insert to the right
             if (Right is null)
                 Right = new Node(value);
             else
@@ -31,15 +32,28 @@ public class Node
         }
     }
 
+    /// <summary>
+    /// Checks if a value exists in the tree
+    /// </summary>
     public bool Contains(int value)
     {
-        // TODO Start Problem 2
+        if (value == Data)
+            return true;
+        else if (value < Data && Left != null)
+            return Left.Contains(value);
+        else if (value > Data && Right != null)
+            return Right.Contains(value);
+
         return false;
     }
 
+    /// <summary>
+    /// Calculates the height of the tree
+    /// </summary>
     public int GetHeight()
     {
-        // TODO Start Problem 4
-        return 0; // Replace this line with the correct return statement(s)
+        int leftHeight = Left?.GetHeight() ?? 0;
+        int rightHeight = Right?.GetHeight() ?? 0;
+        return 1 + Math.Max(leftHeight, rightHeight);
     }
 }
